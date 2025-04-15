@@ -1,0 +1,24 @@
+# Maven
+target/
+!.mvn/wrapper/maven-wrapper.jar
+.mvn/
+
+# IntelliJ IDEA
+.idea/
+*.iml
+*.iws
+*.ipr
+
+# Archivos de compilación y dependencias
+*.log
+*.class
+*.jar
+*.war
+*.ear
+
+# Archivos del sistema operativo (Mac, Windows, Linux)
+.DS_Store
+Thumbs.db
+
+# Archivos de configuración de Maven (pueden ser específicos del entorno)
+settings.xml
