@@ -2,8 +2,7 @@ package org.crolopez.infrastructure.adapter;
 
 import org.crolopez.domain.port.service.UserService;
 import org.crolopez.domain.model.UserEntity;
-import org.crolopez.infrastructure.dto.ApiResponse;
-import org.crolopez.infrastructure.dto.UserDTO;
+import org.crolopez.infrastructure.dto.*;
 import org.crolopez.infrastructure.mapper.UserMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -41,10 +40,10 @@ public class UserController {
     }
 
     @PostMapping
-    public ResponseEntity<ApiResponse<UserDTO>> createUser(@RequestBody UserDTO userDTO) {
-        UserEntity user = userMapper.toDomain(userDTO);
+    public ResponseEntity<ApiResponse<RegisterUserResponseDTO>> createUser(@RequestBody RegisterUserRequestDTO requestDTO) {
+        UserEntity user = userMapper.toDomain(requestDTO);
         UserEntity createdUser = userService.createUser(user);
-        return ResponseEntity.ok(ApiResponse.success(userMapper.toDTO(createdUser)));
+        return ResponseEntity.ok(ApiResponse.success(userMapper.toRegisterUserResponse(createdUser)));
     }
 
     @PutMapping("/{id}")

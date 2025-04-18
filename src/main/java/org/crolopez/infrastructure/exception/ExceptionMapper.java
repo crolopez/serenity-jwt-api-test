@@ -50,7 +50,7 @@ public class ExceptionMapper {
 
     @ExceptionHandler(Exception.class)
     public ResponseEntity<ErrorResponse> handleException(Exception ex) {
-        log.error("Unexpected error", ex);
+        log.error("Unexpected error: {}", ex.getMessage(), ex);
         return ResponseEntity
             .status(HttpStatus.INTERNAL_SERVER_ERROR)
             .body(new ErrorResponse("Internal server error", "SYS_001"));

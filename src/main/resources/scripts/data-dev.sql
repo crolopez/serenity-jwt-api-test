@@ -8,8 +8,14 @@ CREATE TABLE IF NOT EXISTS users (
     role VARCHAR(255) NOT NULL                            
 );
 
-MERGE INTO users KEY(username) VALUES ('testuser', 'aaa', 'testuser@example.com', 'ROLE_USER');
+MERGE INTO users (username, password, email, role, created_at, updated_at) 
+KEY(username) 
+VALUES ('testuser', '$2a$10$NyHkZdTRUqZQwDApDx85NeNF0YWq.koidKQ1rBcI6ROU4j.zwgmly', 'existing@example.com', 'USER', '2025-04-18 16:54:10.127549', '2025-04-18 16:54:10.127549');
 
-MERGE INTO users KEY(username) VALUES ('authtester', 'bbb', 'auth@example.com', 'ROLE_ADMIN');
+MERGE INTO users (username, password, email, role, created_at, updated_at) 
+KEY(username) 
+VALUES ('existinguser', '$2a$10$NyHkZdTRUqZQwDApDx85NeNF0YWq.koidKQ1rBcI6ROU4j.zwgmly', 'unique@example.com', 'USER', '2025-04-18 16:54:10.127549', '2025-04-18 16:54:10.127549');
 
-MERGE INTO users KEY(username) VALUES ('existinguser', 'ccc', 'existing@example.com', 'ROLE_USER'); 
+MERGE INTO users (username, password, email, role, created_at, updated_at) 
+KEY(username) 
+VALUES ('testadmin', '$2a$10$NyHkZdTRUqZQwDApDx85NeNF0YWq.koidKQ1rBcI6ROU4j.zwgmly', 'admin@example.com', 'ADMIN', '2025-04-18 16:54:10.127549', '2025-04-18 16:54:10.127549');

@@ -3,10 +3,8 @@ package org.crolopez.infrastructure.adapter;
 import org.crolopez.domain.port.service.AuthService;
 import org.crolopez.domain.model.AuthRequest;
 import org.crolopez.domain.model.UserEntity;
-import org.crolopez.infrastructure.dto.ApiResponse;
+import org.crolopez.infrastructure.dto.*;
 import org.crolopez.infrastructure.mapper.AuthMapper;
-import org.crolopez.infrastructure.dto.AuthRequestDTO;
-import org.crolopez.infrastructure.dto.UserDTO;
 import org.crolopez.infrastructure.mapper.UserMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -42,11 +40,11 @@ public class AuthController {
     }
 
     @PostMapping("/register")
-    public ResponseEntity<ApiResponse<UserDTO>> register(@RequestBody UserDTO userDTO) {
-        UserEntity user = userMapper.toDomain(userDTO);
+    public ResponseEntity<ApiResponse<RegisterUserResponseDTO>> register(@RequestBody RegisterUserRequestDTO request) {
+        UserEntity user = userMapper.toDomain(request);
         UserEntity registeredUser = authService.register(user);
         if (registeredUser != null) {
-            return ResponseEntity.ok(ApiResponse.success(userMapper.toDTO(registeredUser)));
+            return ResponseEntity.ok(ApiResponse.success(userMapper.toRegisterUserResponse(registeredUser)));
         } else {
             return ResponseEntity.ok(ApiResponse.error("Error registering user"));
         }

@@ -17,7 +17,9 @@ import org.springframework.stereotype.Service;
 
 @Service
 public class AuthServiceImpl implements AuthService {
-    
+
+    private final String DEFAULT_ROLE = "USER";
+
     @Autowired
     private UserRepository userRepository;
     
@@ -61,6 +63,7 @@ public class AuthServiceImpl implements AuthService {
             throw new EmailAlreadyRegisteredException(user.getEmail());
         }
         user.setPassword(passwordEncoder.encode(user.getPassword()));
+        user.setRole(DEFAULT_ROLE);
         return userRepository.save(user);
     }
 } 

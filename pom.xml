@@ -15,6 +15,8 @@
         <spring-boot.version>3.2.3</spring-boot.version>
         <jwt.version>0.12.5</jwt.version>
         <mapstruct.version>1.5.5.Final</mapstruct.version>
+        <serenity.version>4.1.11</serenity.version>
+        <selenium.version>4.21.0</selenium.version>
     </properties>
 
     <parent>
@@ -23,6 +25,31 @@
         <version>3.2.3</version>
         <relativePath/>
     </parent>
+
+    <dependencyManagement>
+        <dependencies>
+            <dependency>
+                <groupId>org.seleniumhq.selenium</groupId>
+                <artifactId>selenium-java</artifactId>
+                <version>${selenium.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.seleniumhq.selenium</groupId>
+                <artifactId>selenium-api</artifactId>
+                <version>${selenium.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.seleniumhq.selenium</groupId>
+                <artifactId>selenium-support</artifactId>
+                <version>${selenium.version}</version>
+            </dependency>
+             <dependency>
+                <groupId>org.seleniumhq.selenium</groupId>
+                <artifactId>selenium-remote-driver</artifactId>
+                <version>${selenium.version}</version>
+            </dependency>
+        </dependencies>
+    </dependencyManagement>
 
     <dependencies>
         <!-- Spring Boot -->
@@ -88,18 +115,102 @@
             <version>1.18.30</version>
             <scope>provided</scope>
         </dependency>
+        <dependency>
+            <groupId>org.projectlombok</groupId>
+            <artifactId>lombok-mapstruct-binding</artifactId>
+            <version>0.2.0</version>
+            <scope>provided</scope>
+        </dependency>
 
-        <!-- Test -->
+        <!-- ===== TEST DEPENDENCIES - START ===== -->
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-test</artifactId>
-            <version>${spring-boot.version}</version>
+            <!-- Version managed by Spring Boot parent -->
             <scope>test</scope>
         </dependency>
         <dependency>
             <groupId>org.springframework.security</groupId>
             <artifactId>spring-security-test</artifactId>
-            <version>6.2.2</version>
+             <!-- Version managed by Spring Boot parent -->
+            <scope>test</scope>
+        </dependency>
+
+        <!-- Serenity Core -->
+        <dependency>
+            <groupId>net.serenity-bdd</groupId>
+            <artifactId>serenity-core</artifactId>
+            <version>${serenity.version}</version>
+            <scope>test</scope>
+        </dependency>
+
+        <!-- Serenity Cucumber Integration (for Serenity 4.x / Cucumber 7+) -->
+        <dependency>
+            <groupId>net.serenity-bdd</groupId>
+            <artifactId>serenity-cucumber</artifactId>
+            <version>${serenity.version}</version>
+            <scope>test</scope>
+        </dependency>
+
+        <!-- Serenity Screenplay -->
+         <dependency>
+            <groupId>net.serenity-bdd</groupId>
+            <artifactId>serenity-screenplay</artifactId>
+            <version>${serenity.version}</version>
+            <scope>test</scope>
+        </dependency>
+
+        <!-- Serenity Screenplay WebDriver -->
+        <dependency>
+            <groupId>net.serenity-bdd</groupId>
+            <artifactId>serenity-screenplay-webdriver</artifactId>
+            <version>${serenity.version}</version>
+            <scope>test</scope>
+        </dependency>
+
+        <!-- Serenity REST Assured Integration -->
+        <dependency>
+            <groupId>net.serenity-bdd</groupId>
+            <artifactId>serenity-rest-assured</artifactId>
+            <version>${serenity.version}</version>
+            <scope>test</scope>
+        </dependency>
+
+        <!-- JUnit 4 (Needed by CucumberWithSerenity Runner) -->
+        <dependency>
+            <groupId>junit</groupId>
+            <artifactId>junit</artifactId>
+            <version>4.13.2</version>
+            <scope>test</scope>
+        </dependency>
+
+        <!-- JUnit 5 / Jupiter Engine (Used by Surefire/Failsafe Platform Provider) -->
+        <dependency>
+            <groupId>org.junit.jupiter</groupId>
+            <artifactId>junit-jupiter-engine</artifactId>
+            <version>5.10.2</version>
+            <scope>test</scope>
+        </dependency>
+
+        <!-- JUnit Vintage Engine (for JUnit 4 compatibility with Platform Provider) -->
+        <dependency>
+            <groupId>org.junit.vintage</groupId>
+            <artifactId>junit-vintage-engine</artifactId>
+            <version>5.10.2</version>
+            <scope>test</scope>
+        </dependency>
+
+        <!-- Hamcrest (for assertions) -->
+        <dependency>
+            <groupId>org.hamcrest</groupId>
+            <artifactId>hamcrest</artifactId>
+            <version>2.2</version>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>net.serenity-bdd</groupId>
+            <artifactId>serenity-screenplay-rest</artifactId>
+            <version>${serenity.version}</version>
             <scope>test</scope>
         </dependency>
     </dependencies>
@@ -114,7 +225,9 @@
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-compiler-plugin</artifactId>
+                <version>3.11.0</version>
                 <configuration>
+                    <release>17</release>
                     <annotationProcessorPaths>
                         <path>
                             <groupId>org.mapstruct</groupId>
@@ -122,17 +235,66 @@
                             <version>${mapstruct.version}</version>
                         </path>
                         <path>
-                            <groupId>org.projectlombok</groupId>
-                            <artifactId>lombok</artifactId>
-                            <version>${lombok.version}</version>
+                             <groupId>org.projectlombok</groupId>
+                             <artifactId>lombok</artifactId>
+                             <version>1.18.30</version> 
                         </path>
-                        <path>
+                         <path>
                             <groupId>org.projectlombok</groupId>
                             <artifactId>lombok-mapstruct-binding</artifactId>
-                            <version>0.2.0</version>
+                            <version>0.2.0</version> 
                         </path>
                     </annotationProcessorPaths>
                 </configuration>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-surefire-plugin</artifactId>
+                <version>3.2.5</version>
+                <configuration>
+                    <skip>true</skip>
+                </configuration>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-failsafe-plugin</artifactId>
+                <version>3.2.5</version>
+                <configuration>
+                    <includes>
+                        <include>**/runners/TestSuite.java</include>
+                    </includes>
+                </configuration>
+                <executions>
+                    <execution>
+                        <goals>
+                            <goal>integration-test</goal>
+                            <goal>verify</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+            <plugin>
+                <groupId>net.serenity-bdd.maven.plugins</groupId>
+                <artifactId>serenity-maven-plugin</artifactId>
+                <version>${serenity.version}</version>
+                <configuration>
+                </configuration>
+                <dependencies>
+                    <dependency>
+                        <groupId>net.serenity-bdd</groupId>
+                        <artifactId>serenity-core</artifactId>
+                        <version>${serenity.version}</version>
+                    </dependency>
+                </dependencies>
+                <executions>
+                    <execution>
+                        <id>serenity-reports</id>
+                        <phase>post-integration-test</phase>
+                        <goals>
+                            <goal>aggregate</goal>
+                        </goals>
+                    </execution>
+                </executions>
             </plugin>
         </plugins>
     </build>
